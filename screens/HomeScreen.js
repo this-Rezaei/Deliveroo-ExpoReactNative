@@ -1,15 +1,16 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect } from "react";
-import { View, Text, SafeAreaView, Image } from "react-native";
+import { View, Text, SafeAreaView, Image, TextInput } from "react-native";
 import GlobalStyle from "../GlobalStyle";
 import IconEvil from "react-native-vector-icons/EvilIcons";
 import IconAntd from "react-native-vector-icons/AntDesign";
+import IconIoni from "react-native-vector-icons/Ionicons";
 const HomeScreen = () => {
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
     navigation.setOptions({
-        // headerTitle: "TESTING",
+      // headerTitle: "TESTING",
       headerShown: false,
     });
   }, []);
@@ -32,6 +33,15 @@ const HomeScreen = () => {
           </Text>
         </View>
         <IconAntd name="user" size={30} color="#00ccbb" />
+      </View>
+      {/* search */}
+
+      <View>
+        <View>
+          <IconIoni name="search-outline" size={30} color="#00ccbb"  />
+          <TextInput />
+        </View>
+        <IconIoni name="settings-outline" size={30} color="#00ccbb" />
       </View>
     </SafeAreaView>
   );
