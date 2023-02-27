@@ -9,10 +9,10 @@ import {
   ScrollView,
 } from "react-native";
 import GlobalStyle from "../GlobalStyle";
-import IconEvil from "react-native-vector-icons/EvilIcons";
 import IconAntd from "react-native-vector-icons/AntDesign";
 import IconIoni from "react-native-vector-icons/Ionicons";
 import Categories from "../components/Categories";
+import FeaturedRow from "../components/FeaturedRow";
 const HomeScreen = () => {
   const navigation = useNavigation();
 
@@ -24,7 +24,7 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={GlobalStyle.droidSafeArea}>
+    <SafeAreaView style={GlobalStyle.droidSafeArea} className="bg-white">
       {/* Header */}
       <View className="flex-row pb-3 items-center mx-4 space-x-2 px-1">
         <Image
@@ -37,7 +37,7 @@ const HomeScreen = () => {
           <Text className="font-bold text-gray-400 text-xs">Deliver Now !</Text>
           <Text className="font-bold text-xl">
             Current Location
-            <IconEvil name="chevron-down" size={20} color="#00ccbb" />
+            <IconIoni name="chevron-down" size={20} color="#00ccbb" />
           </Text>
         </View>
         <IconAntd name="user" size={30} color="#00ccbb" />
@@ -52,16 +52,37 @@ const HomeScreen = () => {
             keyboardType="default"
           />
         </View>
-        <IconIoni name="settings-outline" size={20} color="#00ccbb" />
+        <IconIoni name="settings-outline" size={25} color="#00ccbb" />
       </View>
       {/* Body */}
       <ScrollView
-        className="bg-red-500"
+        className="bg-gray-200"
         contentContainerStyle={{ paddingBottom: 100 }}
       >
         {/* Categories */}
         <Categories />
         {/* Featured */}
+        <FeaturedRow
+          id="123"
+          title="Featured"
+          description="Paid Placements from our Partners"
+          featuredCategory="featured"
+        />
+        {/* Tasty Discounts */}
+        <FeaturedRow
+          id="1234"
+          title="Tasty Discounts"
+          description="Everyone s been enjoying these juicy discounts!"
+          featuredCategory="discounts"
+        />
+        {/* Offers near you
+         */}
+        <FeaturedRow
+          id="12345"
+          title="Offers near you!"
+          description="Why not support your local restaurant tonight!"
+          featuredCategory="offers"
+        />
       </ScrollView>
     </SafeAreaView>
   );

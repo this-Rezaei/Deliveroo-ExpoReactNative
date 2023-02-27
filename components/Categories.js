@@ -36,8 +36,6 @@ const Categories = () => {
         imgUrl="https://cdn.snappfood.ir/uploads/images/tags/sooshi.png"
         title="Sooshi"
       />
-
-      <Text>Categories</Text>
     </ScrollView>
   );
 };
