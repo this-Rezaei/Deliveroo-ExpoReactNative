@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import Kabab from "../assets/kabab.png";
+
 const CategoriesCard = ({ imgUrl, title }) => {
   const newLocal = "";
   return (
