@@ -7,6 +7,13 @@ module.exports = {
   ],
   theme: {
     extend: {},
+
+    fontFamily: {
+      sans: ["IranSans"],
+      "sans-light": ["IranSansLight"],
+      "sans-semiBold": ["IranSansSemiBold"],
+      "sans-bold": ["IranSansBold"],
+    },
   },
   plugins: [],
 };

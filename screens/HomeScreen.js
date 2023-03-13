@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect,useState,useEffect
+ } from "react";
 import {
   View,
   Text,
@@ -14,6 +15,7 @@ import IconIoni from "react-native-vector-icons/Ionicons";
 import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
 const HomeScreen = () => {
+  const [featuredCategories, setfeaturedCategories] = useState('')
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
