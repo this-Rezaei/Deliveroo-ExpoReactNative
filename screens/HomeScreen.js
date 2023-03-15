@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect,useState,useEffect
- } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,8 +13,9 @@ import IconAntd from "react-native-vector-icons/AntDesign";
 import IconIoni from "react-native-vector-icons/Ionicons";
 import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
+import { client } from "../sanity";
 const HomeScreen = () => {
-  const [featuredCategories, setfeaturedCategories] = useState('')
+  const [featuredCategories, setfeaturedCategories] = useState("");
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -25,6 +25,13 @@ const HomeScreen = () => {
     });
   }, []);
 
+  useEffect(() => {
+    client.fetch('*[_type == "post"]').then((data) => {
+      console.log(data);
+    });
+  }, []);
+
+  console.log(getgetCategories);
   return (
     <SafeAreaView style={GlobalStyle.droidSafeArea} className="bg-white">
       {/* Header */}
