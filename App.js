@@ -4,9 +4,10 @@ import HomeScreen from "./screens/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
+import { View, Text } from "react-native";
+import New from "./screens/New";
 
 const Stack = createNativeStackNavigator();
-
 function App() {
   const [fontsLoaded] = useFonts({
     IranSans: require("./assets/fonts/IRANSansWeb(FaNum)_Medium.ttf"),
@@ -16,10 +17,11 @@ function App() {
   });
 
   if (!fontsLoaded) return null;
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

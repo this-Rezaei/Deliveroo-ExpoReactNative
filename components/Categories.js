@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import CategoriesCard from "./CategoriesCard";
+import { client, urlFor } from "../sanity";
 const Categories = () => {
+  const [categories, setcategories] = useState([]);
+  useEffect(() => {
+    client.fetch('*[_type == "category"]').then((data) => {
+      setcategories(data);
+    });
+  }, []);
+  // console.log("categories", categories[0]);
   return (
     <ScrollView
       horizontal
@@ -12,30 +20,13 @@ const Categories = () => {
       showsHorizontalScrollIndicator={false}
     >
       {/* categories Card */}
-      <CategoriesCard
-        imgUrl="https://cdn.snappfood.ir/uploads/images/tags/website_image_pizza_1.jpg"
-        title="پیتزا"
-      />
-      <CategoriesCard
-        imgUrl="https://cdn.snappfood.ir/uploads/images/tags/kabab.png"
-        title="کباب"
-      />
-      <CategoriesCard
-        imgUrl="https://cdn.snappfood.ir/uploads/images/tags/icon_daryayi.png"
-        title="دریایی"
-      />
-      <CategoriesCard
-        imgUrl="https://cdn.snappfood.ir/uploads/images/tags/aash.png"
-        title="Aash"
-      />
-      <CategoriesCard
-        imgUrl="https://cdn.snappfood.ir/uploads/images/tags/salad.png"
-        title="Salad"
-      />
-      <CategoriesCard
-        imgUrl="https://cdn.snappfood.ir/uploads/images/tags/sooshi.png"
-        title="Sooshi"
-      />
+      {categories?.map((category) => (
+        <CategoriesCard
+          key={category._id}
+          imgUrl={urlFor(category.image).url()}
+          title={category.name}
+        />
+      ))}
     </ScrollView>
   );
 };

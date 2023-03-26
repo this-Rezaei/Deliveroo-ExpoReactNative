@@ -25,8 +25,9 @@ export default defineType({
     },
     {
       name: 'image',
-      type: 'image',
       title: 'Image of the Dish',
+      type: 'array',
+      of: [{type: 'image'}],
     },
   ],
 })

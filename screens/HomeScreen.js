@@ -15,7 +15,7 @@ import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
 import { client } from "../sanity";
 const HomeScreen = () => {
-  const [featuredCategories, setfeaturedCategories] = useState("");
+  const [featuredCategories, setfeaturedCategories] = useState([]);
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -26,12 +26,23 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    client.fetch('*[_type == "post"]').then((data) => {
-      console.log(data);
-    });
+    client
+      .fetch(
+        `*[_type == "featured"]{
+        ...,
+         restaurants[]->{
+         ...,
+         dishes[]->
+         }
+        }`
+      )
+      .then((data) => {
+        console.log(data);
+        setfeaturedCategories(data);
+      });
   }, []);
+  console.log(featuredCategories);
 
-  console.log(getgetCategories);
   return (
     <SafeAreaView style={GlobalStyle.droidSafeArea} className="bg-white">
       {/* Header */}
@@ -69,29 +80,20 @@ const HomeScreen = () => {
         contentContainerStyle={{ paddingBottom: 100 }}
       >
         {/* Categories */}
+
         <Categories />
+
         {/* Featured */}
-        <FeaturedRow
-          id="123"
-          title="Featured"
-          description="Paid Placements from our Partners"
-          featuredCategory="featured"
-        />
-        {/* Tasty Discounts */}
-        <FeaturedRow
-          id="1234"
-          title="Tasty Discounts"
-          description="Everyone s been enjoying these juicy discounts!"
-          featuredCategory="discounts"
-        />
-        {/* Offers near you
-         */}
-        <FeaturedRow
-          id="12345"
-          title="Offers near you!"
-          description="Why not support your local restaurant tonight!"
-          featuredCategory="offers"
-        />
+
+        {featuredCategories.map((category) => (
+          <FeaturedRow
+            id={category._id}
+            key={category._id}
+            title={category.name}
+            description={category.short_description}
+            featuredCategory="featured"
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,8 +1,31 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import IconIoni from "react-native-vector-icons/Ionicons";
 import RestaurantCards from "./RestaurantCards";
-const FeaturedRow = ({ title, description, featuredCategory }) => {
+import { client, urlFor } from "../sanity";
+const FeaturedRow = ({ id, title, description, featuredCategory }) => {
+  const [restaurants, setRestaurants] = useState([]);
+  useEffect(() => {
+    client
+      .fetch(
+        `*[_type == "featured"&& _id==$id]{
+          ...,
+          restaurants[]->{
+           ...,
+            dishes[]->,
+            
+              type->{
+             name
+             }
+         }
+            }[0]`,
+        { id }
+      )
+      .then((data) => {
+        console.log(data?.restaurants);
+        setRestaurants(data?.restaurants)
+      });
+  }, []);
   return (
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
@@ -18,66 +41,21 @@ const FeaturedRow = ({ title, description, featuredCategory }) => {
         className="pt-4"
         showsHorizontalScrollIndicator={false}
       >
-        <RestaurantCards
-          imgUrl="https://cdn.snappfood.ir/300x200/uploads/images/vendors/covers/603110980e55e.jpg"
-          id={123}
-          title="Yo! Meat"
-          rating={4.7}
-          genre="Iran"
-          address="Motahhari St"
-          short_description="this is a test description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCards
-          imgUrl="https://cdn.snappfood.ir/300x200/uploads/images/vendors/covers/603110980e55e.jpg"
-          id={1234}
-          title="Yo! Meat"
-          rating={4.7}
-          genre="Iran"
-          address="Motahhari St"
-          short_description="this is a test description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCards
-          imgUrl="https://cdn.snappfood.ir/300x200/uploads/images/vendors/covers/603110980e55e.jpg"
-          id={12345}
-          title="Yo! Meat"
-          rating={4.7}
-          genre="Iran"
-          address="Motahhari St"
-          short_description="this is a test description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCards
-          imgUrl="https://cdn.snappfood.ir/300x200/uploads/images/vendors/covers/603110980e55e.jpg"
-          id={123456}
-          title="Yo! Meat"
-          rating={4.7}
-          genre="Iran"
-          address="Motahhari St"
-          short_description="this is a test description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCards
-          imgUrl="https://cdn.snappfood.ir/300x200/uploads/images/vendors/covers/603110980e55e.jpg"
-          id={1234567}
-          title="Yo! Meat"
-          rating={4.7}
-          genre="Iran"
-          address="Motahhari St"
-          short_description="this is a test description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
+        {restaurants.map((restaurant) => (
+          <RestaurantCards
+            key={restaurant._id}
+            imgUrl={restaurant.image}
+            id={restaurant._id}
+            title={restaurant.name}
+            rating={restaurant.rating}
+            genre={restaurant.type?.name}
+            address={restaurant.address}
+            short_description={restaurant.short_description}
+            dishes={restaurant.dishes}
+            long={restaurant.long}
+            lat={restaurant.lat}
+          />
+        ))}
       </ScrollView>
     </View>
   );
