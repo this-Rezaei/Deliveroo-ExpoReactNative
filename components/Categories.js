@@ -1,34 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView } from "react-native";
-import CategoriesCard from "./CategoriesCard";
+import React, { useEffect, useState, useRef } from "react";
+import { SafeAreaView, FlatList, StyleSheet } from "react-native";
 import { client, urlFor } from "../sanity";
-const Categories = () => {
+import CategoriesCard from "./CategoriesCard";
+import Loader from "./loader/CategoriesCardLoader";
+const FlatListItem = () => {
   const [categories, setcategories] = useState([]);
+  const [isloading, setLoading] = useState(true);
+  const ref = useRef();
   useEffect(() => {
     client.fetch('*[_type == "category"]').then((data) => {
       setcategories(data);
+      setLoading(false);
     });
   }, []);
-  // console.log("categories", categories[0]);
+
+  const renderItem = ({ item }) => (
+    <CategoriesCard imgUrl={urlFor(item.image).url()} title={item.name} />
+  );
+
   return (
-    <ScrollView
-      horizontal
-      contentContainerStyle={{
-        paddingHorizontal: 15,
-        paddingTop: 10,
-      }}
-      showsHorizontalScrollIndicator={false}
-    >
-      {/* categories Card */}
-      {categories?.map((category) => (
-        <CategoriesCard
-          key={category._id}
-          imgUrl={urlFor(category.image).url()}
-          title={category.name}
-        />
-      ))}
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <FlatList
+        data={categories}
+        renderItem={renderItem}
+        keyExtractor={(item) => item._id}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        inverted={true}
+      />
+
+      {/* <Loader/> */}
+    </SafeAreaView>
   );
 };
 
-export default Categories;
+const styles = StyleSheet.create({
+  container: {
+    marginEnd: 8,
+  },
+});
+
+export default FlatListItem;

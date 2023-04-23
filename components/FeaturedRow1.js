@@ -1,8 +1,9 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, FlatList, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import IconEntypo from "react-native-vector-icons/Entypo";
 import RestaurantCards from "./RestaurantCards";
 import { client, urlFor } from "../sanity";
+
 const FeaturedRow = ({ id, title, description, featuredCategory }) => {
   const [Restaurants, setRestaurants] = useState([]);
   useEffect(() => {
@@ -26,40 +27,40 @@ const FeaturedRow = ({ id, title, description, featuredCategory }) => {
         setRestaurants(data?.restaurants);
       });
   }, []);
-  console.log(Restaurants);
+  const renderItem = ({ item }) => (
+    <RestaurantCards
+      imgUrl={urlFor(item.image).url()}
+      iconUrl={urlFor(item.icon).url()}
+      key={item._id}
+      id={item._id}
+      title={item.name}
+      rating={item.rating}
+      genre={title}
+      address={item.address}
+      short_description={item.short_description}
+      deliveryFee={item.deliveryFee}
+      dishes={item.dishes}
+      long={item.long}
+      lat={item.lat}
+    />
+  );
   return (
-    <View>
+    <SafeAreaView>
       <View className="mt-4 flex-row items-center justify-between px-4">
         <IconEntypo name="chevron-left" size={20} color="#00ccbb" />
         <Text className="font-bold text-lg">{title}</Text>
       </View>
       <Text className="text-xs text-gray-500 px-4">{description}</Text>
-      <ScrollView
+
+      <FlatList
+        data={Restaurants}
+        renderItem={renderItem}
+        keyExtractor={(item) => item._id}
         horizontal
-        contentContainerStyle={{
-          paddingHorizontal: 15,
-        }}
-        className="pt-4"
         showsHorizontalScrollIndicator={false}
-      >
-        {Restaurants.map((restaurant) => (
-          <RestaurantCards
-            key={restaurant._id}
-            imgUrl={restaurant.image}
-            id={restaurant._id}
-            title={restaurant.name}
-            rating={restaurant.rating}
-            genre={title}
-            address={restaurant.address}
-            short_description={restaurant.short_description}
-            deliveryFee={restaurant.deliveryFee}
-            dishes={restaurant.dishes}
-            long={restaurant.long}
-            lat={restaurant.lat}
-          />
-        ))}
-      </ScrollView>
-    </View>
+        inverted={true}
+      />
+    </SafeAreaView>
   );
 };
 

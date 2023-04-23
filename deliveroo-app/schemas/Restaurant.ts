@@ -16,6 +16,18 @@ export default defineType({
     {name: 'lat', type: 'number', title: 'Latitude of the Restaurant'},
     {name: 'long', type: 'number', title: 'Longitude of the Restaurant'},
     {
+      name: 'deliveryFee',
+      type: 'string',
+      title: 'shipping cost with motor',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'icon',
+      type: 'image',
+      title: ' Restaurant brand icon  ',
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: 'address',
       type: 'string',
       title: 'Restaurant address',

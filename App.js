@@ -4,9 +4,7 @@ import HomeScreen from "./screens/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
-import { View, Text } from "react-native";
-import New from "./screens/New";
-
+import RestaurantScreen from "./screens/RestaurantScreen";
 const Stack = createNativeStackNavigator();
 function App() {
   const [fontsLoaded] = useFonts({
@@ -22,6 +20,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="Restaurant" component={RestaurantScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
